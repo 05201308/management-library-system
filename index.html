@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f4">
+    <title>Blessed Library | Library management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main id="login-screen" class="login-screen">
+      <section class="login-card" aria-labelledby="login-title">
+        <a class="brand brand-login" href="#" aria-label="Blessed Library home">
+          <span class="brand-mark" aria-hidden="true">n.</span>
+          <span>Blessed<span class="brand-subtitle">COMMUNITY LIBRARY</span></span>
+        </a>
+        <div class="login-copy">
+          <span class="eyebrow">YOUR LOCAL LIBRARY</span>
+          <h1 id="login-title">Good books.<br>Good to have you.</h1>
+          <p>Sign in with your membership ID to manage the library collection.</p>
+        </div>
+        <form id="login-form" class="form-stack">
+          <label for="login-membership">Membership ID</label>
+          <input id="login-membership" name="membershipId" autocomplete="username" placeholder="e.g. ADMIN001" required>
+          <button class="button button-primary button-full" type="submit">Sign in <span aria-hidden="true">→</span></button>
+          <p id="login-error" class="form-error" role="alert" hidden></p>
+        </form>
+        <p class="login-hint">Demo librarian account <strong>ADMIN001</strong></p>
+      </section>
+      <div class="login-art" aria-hidden="true">
+        <div class="art-orb art-orb-one"></div>
+        <div class="art-orb art-orb-two"></div>
+        <div class="art-quote">
+          <span class="quote-mark">“</span>
+          <p>A library is not a luxury but one of the necessities of life.</p>
+          <span class="quote-credit">— Henry Ward Beecher</span>
+        </div>
+        <div class="art-books">
+          <span class="book-shape book-shape-one"></span>
+          <span class="book-shape book-shape-two"></span>
+          <span class="book-shape book-shape-three"></span>
+          <span class="book-shape book-shape-four"></span>
+        </div>
+      </div>
+    </main>
+
+    <div id="app-shell" class="app-shell" hidden>
+      <aside class="sidebar">
+        <a class="brand sidebar-brand" href="#" aria-label="Blessed Library dashboard">
+          <span class="brand-mark" aria-hidden="true">n.</span>
+          <span>Blessed<span class="brand-subtitle">COMMUNITY LIBRARY</span></span>
+        </a>
+        <span class="nav-label">LIBRARY</span>
+        <nav class="side-nav" aria-label="Main navigation">
+          <button class="nav-link is-active" data-view="dashboard" type="button"><span class="nav-icon">⌂</span>Overview</button>
+          <button class="nav-link" data-view="books" type="button"><span class="nav-icon">▤</span>Books</button>
+          <button class="nav-link" data-view="transactions" type="button"><span class="nav-icon">↔</span>Transactions</button>
+          <button class="nav-link" data-view="users" type="button"><span class="nav-icon">♙</span>Members</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="sidebar-note"><span class="note-dot"></span><span>Every book finds<br>its next reader.</span></div>
+          <button id="logout-button" class="logout-button" type="button"><span aria-hidden="true">↪</span> Sign out</button>
+        </div>
+      </aside>
+
+      <div class="main-column">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Library</span><span class="breadcrumb-divider">/</span><strong id="page-heading">Overview</strong></div>
+          <div class="topbar-user">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span class="topbar-greeting">Signed in as</span>
+            <span id="current-user-name" class="current-user-name"></span>
+            <span id="current-user-avatar" class="avatar">L</span>
+          </div>
+        </header>
+
+        <div class="page-content">
+          <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+          <section id="view-dashboard" class="view-section">
+            <div class="page-intro">
+              <div><span class="eyebrow">YOUR LIBRARY AT A GLANCE</span><h1>Overview<span class="heading-period">.</span></h1><p>Here's what's happening in your community library.</p></div>
+              <button class="button button-primary" data-go="books" type="button"><span aria-hidden="true">＋</span> Add a book</button>
+            </div>
+            <div class="stats-grid">
+              <article class="stat-card"><div class="stat-top"><span class="stat-icon stat-icon-green">▤</span><span class="stat-label">TITLES IN COLLECTION</span></div><strong id="stat-titles" class="stat-value">0</strong><span class="stat-foot">Unique books in your library</span></article>
+              <article class="stat-card"><div class="stat-top"><span class="stat-icon stat-icon-blue">▣</span><span class="stat-label">COPIES IN STOCK</span></div><strong id="stat-stock" class="stat-value">0</strong><span class="stat-foot">Ready to find a reader</span></article>
+              <article class="stat-card"><div class="stat-top"><span class="stat-icon stat-icon-amber">⌁</span><span class="stat-label">CURRENTLY BORROWED</span></div><strong id="stat-borrowed" class="stat-value">0</strong><span class="stat-foot">Copies out with members</span></article>
+              <article class="stat-card"><div class="stat-top"><span class="stat-icon stat-icon-coral">♙</span><span class="stat-label">REGISTERED MEMBERS</span></div><strong id="stat-members" class="stat-value">0</strong><span class="stat-foot">People in your community</span></article>
+            </div>
+            <div class="dashboard-grid">
+              <section class="panel collection-panel">
+                <div class="panel-heading"><div><span class="eyebrow">THE COLLECTION</span><h2>Book availability</h2></div><button class="text-button" data-go="books" type="button">View all books <span aria-hidden="true">→</span></button></div>
+                <div class="table-wrap"><table><thead><tr><th>BOOK</th><th>GENRE</th><th>AVAILABILITY</th></tr></thead><tbody id="dashboard-books"></tbody></table></div>
+                <p id="dashboard-empty" class="empty-state" hidden>No books in the collection yet. Add the first one to get started.</p>
+              </section>
+              <section class="panel low-stock-panel">
+                <div class="panel-heading"><div><span class="eyebrow">NEEDS A LOOK</span><h2>Low on the shelf</h2></div><span class="low-count" id="low-stock-count">0</span></div>
+                <p class="panel-description">Books with fewer than 2 copies in stock.</p>
+                <div id="low-stock-list" class="low-stock-list"></div>
+                <p id="low-stock-empty" class="empty-state compact-empty" hidden>Your shelves are looking well stocked.</p>
+              </section>
+            </div>
+            <section class="panel recent-panel">
+              <div class="panel-heading"><div><span class="eyebrow">LATEST ACTIVITY</span><h2>Recent transactions</h2></div><button class="text-button" data-go="transactions" type="button">All transactions <span aria-hidden="true">→</span></button></div>
+              <div class="table-wrap"><table><thead><tr><th>ACTIVITY</th><th>BOOK</th><th>MEMBER</th><th>DATE</th></tr></thead><tbody id="dashboard-transactions"></tbody></table></div>
+              <p id="dashboard-transactions-empty" class="empty-state" hidden>Transactions will appear here when stock is added or borrowed.</p>
+            </section>
+          </section>
+
+          <section id="view-books" class="view-section" hidden>
+            <div class="page-intro"><div><span class="eyebrow">YOUR SHELVES, YOUR STORY</span><h1>Books<span class="heading-period">.</span></h1><p>Add, update, and keep track of every title in your collection.</p></div><button id="toggle-book-form" class="button button-primary" type="button"><span aria-hidden="true">＋</span> Add a book</button></div>
+            <section id="book-form-panel" class="panel form-panel" hidden>
+              <div class="panel-heading"><div><span class="eyebrow">COLLECTION DETAILS</span><h2 id="book-form-title">Add a new book</h2></div><button class="icon-button" data-close="book-form-panel" type="button" aria-label="Close form">×</button></div>
+              <form id="book-form" class="form-grid">
+                <input id="book-id" type="hidden">
+                <label>Book title<input id="book-title" name="title" required maxlength="120" placeholder="e.g. Things Fall Apart"></label>
+                <label>Author<input id="book-author" name="author" required maxlength="100" placeholder="e.g. Chinua Achebe"></label>
+                <label>Genre<input id="book-genre" name="genre" required maxlength="60" placeholder="e.g. Fiction"></label>
+                <label>ISBN<input id="book-isbn" name="isbn" required maxlength="20" placeholder="e.g. 9780385474542"></label>
+                <label>Initial quantity<input id="book-quantity" name="quantity" required type="number" min="0" step="1" value="1"></label>
+                <div class="form-actions"><button class="button button-primary" type="submit">Save book</button><button class="button button-quiet" data-close="book-form-panel" type="button">Cancel</button></div>
+              </form>
+            </section>
+            <section class="panel full-table-panel">
+              <div class="panel-heading"><div><span class="eyebrow">ALL TITLES</span><h2>Your collection</h2></div><label class="search-field"><span aria-hidden="true">⌕</span><input id="book-search" type="search" placeholder="Search books..." aria-label="Search books"></label></div>
+              <div class="table-wrap"><table><thead><tr><th>BOOK</th><th>GENRE</th><th>ISBN</th><th>IN STOCK</th><th class="actions-heading">ACTIONS</th></tr></thead><tbody id="books-table"></tbody></table></div>
+              <p id="books-empty" class="empty-state" hidden>No books found. Add a book to start building your collection.</p>
+            </section>
+          </section>
+
+          <section id="view-transactions" class="view-section" hidden>
+            <div class="page-intro"><div><span class="eyebrow">STOCK IN, STOCK OUT</span><h1>Transactions<span class="heading-period">.</span></h1><p>Record new arrivals and books borrowed by your members.</p></div></div>
+            <section class="panel form-panel transaction-form-panel">
+              <div class="panel-heading"><div><span class="eyebrow">RECORD ACTIVITY</span><h2>New transaction</h2></div><span class="transaction-mark" aria-hidden="true">↔</span></div>
+              <form id="transaction-form" class="form-grid">
+                <label>Transaction type<select id="transaction-type" name="type"><option value="borrow">Borrow a book</option><option value="return">Return a book</option><option value="stock">Add new stock</option></select></label>
+                <label>Book<select id="transaction-book" name="bookId" required></select></label>
+                <label id="transaction-member-field">Member<select id="transaction-member" name="memberId"></select></label>
+                <label>Quantity<input id="transaction-quantity" name="quantity" type="number" min="1" step="1" value="1" required></label>
+                <div class="form-actions"><button id="transaction-submit" class="button button-primary" type="submit">Record borrowing</button></div>
+              </form>
+              <p class="form-hint">Borrowing reduces available stock. Returns and new stock increase it.</p>
+            </section>
+            <section class="panel full-table-panel">
+              <div class="panel-heading"><div><span class="eyebrow">PAPER TRAIL</span><h2>Transaction history</h2></div><span id="transaction-total" class="table-count">0 records</span></div>
+              <div class="table-wrap"><table><thead><tr><th>TYPE</th><th>BOOK</th><th>MEMBER</th><th>QUANTITY</th><th>DATE &amp; TIME</th></tr></thead><tbody id="transactions-table"></tbody></table></div>
+              <p id="transactions-empty" class="empty-state" hidden>No transactions have been recorded yet.</p>
+            </section>
+          </section>
+
+          <section id="view-users" class="view-section" hidden>
+            <div class="page-intro"><div><span class="eyebrow">THE PEOPLE BEHIND THE PAGES</span><h1>Members<span class="heading-period">.</span></h1><p>Manage librarian accounts and community memberships.</p></div><button id="toggle-user-form" class="button button-primary" type="button"><span aria-hidden="true">＋</span> Add a member</button></div>
+            <section id="user-form-panel" class="panel form-panel" hidden>
+              <div class="panel-heading"><div><span class="eyebrow">MEMBERSHIP DETAILS</span><h2 id="user-form-title">Add a new member</h2></div><button class="icon-button" data-close="user-form-panel" type="button" aria-label="Close form">×</button></div>
+              <form id="user-form" class="form-grid">
+                <input id="user-id" type="hidden">
+                <label>Full name<input id="user-name" name="name" required maxlength="100" placeholder="e.g. Mpho Takalimane"></label>
+                <label>Membership ID<input id="user-membership" name="membershipId" required maxlength="30" placeholder="e.g. MEM004"></label>
+                <label>Role<select id="user-role" name="role"><option value="Member">Member</option><option value="Librarian">Librarian</option></select></label>
+                <div class="form-actions"><button class="button button-primary" type="submit">Save member</button><button class="button button-quiet" data-close="user-form-panel" type="button">Cancel</button></div>
+              </form>
+            </section>
+            <section class="panel full-table-panel">
+              <div class="panel-heading"><div><span class="eyebrow">YOUR COMMUNITY</span><h2>Registered members</h2></div><span id="user-total" class="table-count">0 members</span></div>
+              <div class="table-wrap"><table><thead><tr><th>MEMBER</th><th>MEMBERSHIP ID</th><th>ROLE</th><th class="actions-heading">ACTIONS</th></tr></thead><tbody id="users-table"></tbody></table></div>
+              <p id="users-empty" class="empty-state" hidden>No members registered yet.</p>
+            </section>
+          </section>
+        </div>
+        <footer class="app-footer"><span>BLESSED LIBRARY</span><span>Made for the love of reading <span class="footer-heart">♥</span></span></footer>
+      </div>
+    </div>
+    <noscript>This library management system needs JavaScript enabled to work.</noscript>
+  </body>
+</html>
